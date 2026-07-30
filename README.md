@@ -7,6 +7,7 @@
 ```bash
 pip install -r requirements.txt
 python main.py
+# 或双击 run.bat
 ```
 
 首次启动会自动生成 `config.json`。在菜单栏配置 Key 和路径后即可使用。
@@ -76,10 +77,4 @@ violet_tool/
 
 详见 `tools/base_tool.py` 中的接口说明。
 
-## 打包
-
-```bash
-pip install pyinstaller
-build.bat
-# 输出: dist/violet_tool.exe
-```
+## 新增工具
