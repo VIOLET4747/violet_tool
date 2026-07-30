@@ -87,13 +87,9 @@ class ProjectPathSettings:
         frame = ttk.Frame(self.top, padding=15)
         frame.pack(fill=tk.BOTH, expand=True)
 
-        ttk.Label(frame, text="日常 SRC 项目基础路径", font=("", 9)).pack(anchor=tk.W, pady=(0, 3))
-        self.daily_var = tk.StringVar(value=config_manager.get_project_base("daily"))
-        ttk.Entry(frame, textvariable=self.daily_var, font=("Consolas", 10)).pack(fill=tk.X, pady=(0, 12))
-
-        ttk.Label(frame, text="公司项目基础路径", font=("", 9)).pack(anchor=tk.W, pady=(0, 3))
-        self.company_var = tk.StringVar(value=config_manager.get_project_base("company"))
-        ttk.Entry(frame, textvariable=self.company_var, font=("Consolas", 10)).pack(fill=tk.X)
+        ttk.Label(frame, text="项目存放路径", font=("", 9)).pack(anchor=tk.W, pady=(0, 3))
+        self.projects_var = tk.StringVar(value=config_manager.get_project_base())
+        ttk.Entry(frame, textvariable=self.projects_var, font=("Consolas", 10)).pack(fill=tk.X)
 
         btn_row = ttk.Frame(frame)
         btn_row.pack(fill=tk.X, pady=(15, 0))
@@ -101,7 +97,6 @@ class ProjectPathSettings:
         ttk.Button(btn_row, text="取消", command=self.top.destroy).pack(side=tk.RIGHT, padx=2)
 
     def _save(self):
-        self.config_manager.set("paths.daily_projects", self.daily_var.get().strip())
-        self.config_manager.set("paths.company_projects", self.company_var.get().strip())
+        self.config_manager.set("paths.projects", self.projects_var.get().strip())
         self.log("success", "项目路径已保存")
         self.top.destroy()

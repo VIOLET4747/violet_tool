@@ -52,26 +52,22 @@ class ProjectManager:
         """
         self.config = config_manager
 
-    def create_project(self, project_type: str, project_name: str) -> str:
+    def create_project(self, project_name: str) -> str:
         """创建新项目文件夹
 
         Args:
-            project_type: 'daily' 或 'company'
             project_name: 自定义文件夹名
 
         Returns:
             创建的项目完整路径
 
         Raises:
-            ValueError: 项目已存在或类型无效
+            ValueError: 项目已存在
             OSError: 创建目录失败
         """
-        if project_type not in ("daily", "company"):
-            raise ValueError(f"无效的项目类型: {project_type}，可选 'daily' 或 'company'")
-
-        base_path = self.config.get_project_base(project_type)
+        base_path = self.config.get_project_base()
         if not base_path:
-            raise ValueError(f"未配置项目基础路径: {project_type}")
+            raise ValueError("未配置项目路径")
 
         if not os.path.exists(base_path):
             os.makedirs(base_path, exist_ok=True)
@@ -105,26 +101,22 @@ class ProjectManager:
         """列出所有项目
 
         Returns:
-            [{"name": "阿里云", "path": "d:\\...\\阿里云", "type": "daily"}, ...]
+            [{"name": "阿里云", "path": "d:\\...\\阿里云"}, ...]
         """
         projects = []
-
-        for ptype, ptype_label in [("daily", "日常"), ("company", "公司")]:
-            base = self.config.get_project_base(ptype)
-            if not base or not os.path.isdir(base):
-                continue
-            try:
-                for entry in os.listdir(base):
-                    entry_path = os.path.join(base, entry)
-                    if os.path.isdir(entry_path):
-                        projects.append({
-                            "name": entry,
-                            "path": entry_path,
-                            "type": ptype,
-                            "type_label": ptype_label,
-                        })
-            except PermissionError:
-                continue
+        base = self.config.get_project_base()
+        if not base or not os.path.isdir(base):
+            return projects
+        try:
+            for entry in os.listdir(base):
+                entry_path = os.path.join(base, entry)
+                if os.path.isdir(entry_path):
+                    projects.append({
+                        "name": entry,
+                        "path": entry_path,
+                    })
+        except PermissionError:
+            pass
 
         projects.sort(key=lambda p: p["name"].lower())
         return projects

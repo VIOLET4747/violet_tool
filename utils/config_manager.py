@@ -5,8 +5,7 @@ import os
 
 DEFAULT_CONFIG = {
     "paths": {
-        "daily_projects": "",
-        "company_projects": ""
+        "projects": ""
     },
     "ui": {
         "log_visible": True
@@ -83,10 +82,8 @@ class ConfigManager:
     def get_fofa_base_url(self) -> str:
         return self.get("tools.fofa.base_url", "https://fofoapi.com")
 
-    def get_project_base(self, project_type: str) -> str:
-        """获取项目基础路径，project_type 为 'daily' 或 'company'"""
-        key = "daily_projects" if project_type == "daily" else "company_projects"
-        return self.get(f"paths.{key}", "")
+    def get_project_base(self) -> str:
+        return self.get("paths.projects", "")
 
     def get_enabled_tools(self) -> dict:
         """返回所有已启用的工具配置"""

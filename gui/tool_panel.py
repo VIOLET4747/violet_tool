@@ -43,8 +43,7 @@ class ToolPanel(ttk.Frame):
         """加载项目，创建工具面板"""
         self.project_info = project_info
 
-        self.project_name_label.config(
-            text=f"📁 {project_info['name']} ({project_info['type_label']})")
+        self.project_name_label.config(text=f"📁 {project_info['name']}")
 
         # 清除旧工具面板
         for frame in self.tool_frames.values():
