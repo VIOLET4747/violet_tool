@@ -8,12 +8,15 @@ class BaseTool:
 
     新增工具：
     1. 继承 BaseTool，实现 get_ui() 方法
-    2. 在 config.json 的 tools 下添加配置项
-    3. 在 tool_registry.py 的 TOOL_CLASSES 中注册
+    2. 在 tool_registry.py 的 TOOL_CLASSES 中注册
+    3. 设置 default_config 类属性
+
+    配置会自动合并，首次运行时生成 config.json
     """
 
-    name: str = "base"          # 工具名称（唯一标识）
-    display_name: str = "Base"  # 显示名称（中文）
+    name: str = "base"
+    display_name: str = "Base"
+    default_config: dict = {}  # 子类定义默认配置，自动写入 config.json
 
     def __init__(self, config: dict, log_callback=None):
         """

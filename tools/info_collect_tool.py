@@ -13,6 +13,14 @@ from tools.base_tool import BaseTool
 class InfoCollectTool(BaseTool):
     name = "info_collect"
     display_name = "基础信息探测"
+    default_config = {
+        "items": [
+            {"name": "IP", "hint": "https://site.ip138.com/", "type": "url"},
+            {"name": "端口", "hint": "tscan 端口扫描", "type": "text"},
+            {"name": "收集API路径", "hint": "google插件 findsomething LoveJS", "type": "text"},
+            {"name": "网站架构信息", "hint": "插件 — Wappalyzer", "type": "text"}
+        ]
+    }
 
     def __init__(self, config: dict, log_callback=None):
         super().__init__(config, log_callback=log_callback)

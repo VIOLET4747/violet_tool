@@ -12,6 +12,7 @@ from tools.base_tool import BaseTool
 class EholeTool(BaseTool):
     name = "ehole"
     display_name = "EHole 指纹识别"
+    default_config = {"path": ""}
 
     def __init__(self, config: dict, log_callback=None):
         super().__init__(config, log_callback=log_callback)

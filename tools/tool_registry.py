@@ -23,6 +23,17 @@ class ToolRegistry:
         """获取工具类（不实例化）"""
         return TOOL_CLASSES.get(tool_name)
 
+    @classmethod
+    def get_default_tools_config(cls) -> dict:
+        """从所有注册的工具类中提取 default_config"""
+        tools_cfg = {}
+        for name, tool_cls in TOOL_CLASSES.items():
+            cfg = getattr(tool_cls, "default_config", {}).copy()
+            if cfg:
+                cfg.setdefault("enabled", True)
+                tools_cfg[name] = cfg
+        return tools_cfg
+
     def get_enabled_tools(self):
         """获取所有已启用的工具类列表
 

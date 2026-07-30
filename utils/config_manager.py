@@ -4,26 +4,6 @@ import json
 import os
 
 DEFAULT_CONFIG = {
-    "tools": {
-        "fofa": {
-            "key": "",
-            "base_url": "https://fofoapi.com",
-            "enabled": True
-        },
-        "ehole": {
-            "path": "",
-            "enabled": True
-        },
-        "info_collect": {
-            "enabled": True,
-            "items": [
-                {"name": "IP", "hint": "https://site.ip138.com/", "type": "url"},
-                {"name": "端口", "hint": "tscan 端口扫描", "type": "text"},
-                {"name": "收集API路径", "hint": "google插件 findsomething LoveJS", "type": "text"},
-                {"name": "网站架构信息", "hint": "插件 — Wappalyzer", "type": "text"}
-            ]
-        }
-    },
     "paths": {
         "daily_projects": "",
         "company_projects": ""
@@ -84,6 +64,18 @@ class ConfigManager:
             target = target[k]
         target[keys[-1]] = value
         self.save()
+
+    def merge_tool_defaults(self, tool_registry):
+        """把所有注册工具的 default_config 合并进 config，不覆盖已有值"""
+        changed = False
+        if "tools" not in self._config:
+            self._config["tools"] = {}
+        for name, cfg in tool_registry.get_default_tools_config().items():
+            if name not in self._config["tools"]:
+                self._config["tools"][name] = cfg
+                changed = True
+        if changed:
+            self.save()
 
     def get_fofa_key(self) -> str:
         return self.get("tools.fofa.key", "")

@@ -28,6 +28,7 @@ class MainWindow:
         self.config_manager = ConfigManager(config_path)
         self.project_manager = ProjectManager(self.config_manager)
         self.tool_registry = ToolRegistry(self.config_manager)
+        self.config_manager.merge_tool_defaults(self.tool_registry)
 
         self.root.update_idletasks()
         sw = self.root.winfo_screenwidth()

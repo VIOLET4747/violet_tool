@@ -18,6 +18,7 @@ from gui.widgets.result_table import ResultTable
 class FofaTool(BaseTool):
     name = "fofa"
     display_name = "FOFA 查询"
+    default_config = {"key": "", "base_url": "https://fofoapi.com"}
 
     # 默认查询字段（与 API 返回顺序一致）
     DEFAULT_FIELDS = "host,ip,port,domain,title,server,protocol,os,country,region,city,asn,org,icp,link,product,product_category,lastupdatetime"
