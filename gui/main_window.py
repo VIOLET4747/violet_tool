@@ -75,7 +75,6 @@ class MainWindow:
         btns.pack(pady=(5, 10))
         ttk.Button(btns, text="＋ 新建项目", command=self._new_project).pack(side=tk.LEFT, padx=5)
         ttk.Button(btns, text="⚙ 系统设置", command=self._open_project_settings).pack(side=tk.LEFT, padx=5)
-        ttk.Button(btns, text="🔄 刷新", command=lambda lb=list_f: self._build_project_list(lb)).pack(side=tk.LEFT, padx=5)
 
         list_f = ttk.Frame(f)
         list_f.pack(fill=tk.BOTH, expand=True, padx=40, pady=(0, 20))
@@ -101,7 +100,7 @@ class MainWindow:
         self._show_workbench()
 
     def _new_project(self):
-        dlg = NewProjectDialog(self.selection_frame or self.root)
+        dlg = NewProjectDialog(self.root)
         self.root.wait_window(dlg.top)
         if dlg.result:
             try:

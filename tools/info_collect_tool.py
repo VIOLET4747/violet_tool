@@ -320,20 +320,22 @@ class InfoCollectTool(BaseTool):
             pass
 
     def _parse_and_fill(self, content):
-        sections = content.split("=" * 60)
-        for section in sections:
-            section = section.strip()
-            if not section:
-                continue
-            lines = section.split("\n", 1)
-            title = lines[0].strip()
-            body = lines[1].strip() if len(lines) > 1 else ""
-            if body == "(无内容)":
+        sep = "=" * 60
+        parts = content.split(sep)
+        # 格式: [头部注释块, 标题, 内容, 标题, 内容, ...]
+        for i in range(1, len(parts) - 1, 2):
+            title = parts[i].strip()
+            if i + 1 < len(parts):
+                body = parts[i + 1].strip()
+                if body == "(无内容)":
+                    body = ""
+            else:
                 body = ""
-            if title in self.text_widgets:
-                self.text_widgets[title].delete("1.0", tk.END)
+            if title and title in self.text_widgets:
+                w = self.text_widgets[title]
+                w.delete("1.0", tk.END)
                 if body:
-                    self.text_widgets[title].insert("1.0", body)
+                    w.insert("1.0", body)
 
     def _log(self, level, message):
         if self.log:

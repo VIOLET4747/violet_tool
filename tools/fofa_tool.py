@@ -104,9 +104,16 @@ class FofaTool(BaseTool):
             threading.Thread(target=do_test, daemon=True).start()
 
         ttk.Button(btn_row, text="测试连接", command=test_connection).pack(side=tk.LEFT, padx=2)
-        ttk.Button(btn_row, text="保存", command=lambda: _save(
-            top, config_manager, key_var.get().strip(), url_var.get().strip(), log, on_save
-        )).pack(side=tk.RIGHT, padx=2)
+
+        def do_save():
+            config_manager.set("tools.fofa.key", key_var.get().strip())
+            config_manager.set("tools.fofa.base_url", url_var.get().strip().rstrip("/"))
+            log("success", "FOFA 配置已保存")
+            if on_save:
+                on_save()
+            top.destroy()
+
+        ttk.Button(btn_row, text="保存", command=do_save).pack(side=tk.RIGHT, padx=2)
         ttk.Button(btn_row, text="取消", command=top.destroy).pack(side=tk.RIGHT, padx=2)
 
     @staticmethod
